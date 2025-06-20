@@ -1,0 +1,44 @@
+import SwiftUI
+
+struct OnboardingView: View {
+    @Binding var isPresented: Bool
+    
+    @State private var startTime = Date()
+    @State private var endTime = Date()
+    @State private var reminderInterval = 1.0 // in hours
+    
+    private let persistenceService = PersistenceService()
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                ScheduleFormView(
+                    startTime: $startTime,
+                    endTime: $endTime,
+                    reminderInterval: $reminderInterval
+                )
+                
+                Button(action: {
+                    let schedule = Schedule(
+                        startTime: startTime,
+                        endTime: endTime,
+                        reminderInterval: reminderInterval * 3600, // convert hours to seconds
+                        followUpInterval: 15 * 60 // 15 minutes in seconds
+                    )
+                    persistenceService.saveSchedule(schedule)
+                    isPresented = false
+                }) {
+                    Text("Save and Continue")
+                }
+                .padding()
+            }
+            .navigationTitle("Setup Reminders")
+        }
+    }
+}
+
+struct OnboardingView_Previews: PreviewProvider {
+    static var previews: some View {
+        OnboardingView(isPresented: .constant(true))
+    }
+} 

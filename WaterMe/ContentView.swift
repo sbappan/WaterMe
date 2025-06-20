@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isShowingOnboarding = false
+    private let persistenceService = PersistenceService()
+
     var body: some View {
         NavigationView {
             VStack {
@@ -19,6 +22,14 @@ struct ContentView: View {
                 .padding()
             }
             .navigationTitle("Water Me")
+        }
+        .onAppear {
+            if persistenceService.loadSchedule() == nil {
+                isShowingOnboarding = true
+            }
+        }
+        .sheet(isPresented: $isShowingOnboarding) {
+            OnboardingView(isPresented: $isShowingOnboarding)
         }
     }
 }

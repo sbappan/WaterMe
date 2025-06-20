@@ -16,17 +16,17 @@
 
 ## Tasks
 
-- [ ] 1.0 Project Setup & Basic UI Shell
+- [x] 1.0 Project Setup & Basic UI Shell
   - [x] 1.1 Create a new SwiftUI project named `WaterReminder` in Xcode.
   - [x] 1.2 Set up the basic folder structure: `Views`, `Services`, `Models`.
   - [x] 1.3 Implement a basic `NavigationView` in `ContentView.swift` that can display the main progress screen and has a button to navigate to `SettingsView`.
 
-- [ ] 2.0 Onboarding and Reminder Configuration
-  - [ ] 2.1 Create the UI for `OnboardingView.swift` with `DatePicker` for start/end times and `TextField` or `Stepper` for intervals.
-  - [ ] 2.2 In `PersistenceService.swift`, implement functions to save and load the schedule (start time, end time, interval, follow-up interval).
-  - [ ] 2.3 Implement logic to show `OnboardingView` as a modal on the first app launch.
-  - [ ] 2.4 Create `SettingsView.swift` by reusing the UI from `OnboardingView` to allow users to modify their schedule.
-  - [ ] 2.5 Ensure that any changes in `SettingsView` are saved using `PersistenceService`.
+- [x] 2.0 Onboarding and Reminder Configuration
+  - [x] 2.1 Create the UI for `OnboardingView.swift` with `DatePicker` for start/end times and `TextField` or `Stepper` for intervals.
+  - [x] 2.2 In `PersistenceService.swift`, implement functions to save and load the schedule (start time, end time, interval, follow-up interval).
+  - [x] 2.3 Implement logic to show `OnboardingView` as a modal on the first app launch.
+  - [x] 2.4 Create `SettingsView.swift` by reusing the UI from `OnboardingView` to allow users to modify their schedule.
+  - [x] 2.5 Ensure that any changes in `SettingsView` are saved using `PersistenceService`.
 
 - [ ] 3.0 Implement Notification System
   - [ ] 3.1 In `NotificationManager.swift`, add a function to request user permission for notifications. Call this after onboarding.
