@@ -42,8 +42,8 @@
   - [x] 4.3 Implement logic to calculate the total number of reminders based on the user's schedule.
   - [x] 4.4 Ensure the `ContentView` fetches and displays the latest progress from `PersistenceService` when it appears.
 
-- [ ] 5.0 Implement Reminder Confirmation Logic
-  - [ ] 5.1 In `NotificationManager.swift`, implement the handler for the "I Drank" notification action.
-  - [ ] 5.2 When the action is triggered, use `PersistenceService` to increment the daily completion count.
-  - [ ] 5.3 Upon confirmation, cancel any pending follow-up reminders for the current interval.
-  - [ ] 5.4 Ensure the main `ContentView` updates its UI to reflect the new progress when the app is opened. 
+- [x] 5.0 Implement Reminder Confirmation Logic
+  - [x] 5.1 In `NotificationManager.swift`, implement the handler for the "I Drank" notification action.
+  - [x] 5.2 When the action is triggered, use `PersistenceService` to increment the daily completion count.
+  - [x] 5.3 Upon confirmation, cancel any pending follow-up reminders for the current interval.
+  - [x] 5.4 Ensure the main `ContentView` updates its UI to reflect the new progress when the app is opened. 

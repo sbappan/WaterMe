@@ -1,11 +1,16 @@
 import Foundation
 import UserNotifications
 
-class NotificationManager {
+class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     let notificationCenter = UNUserNotificationCenter.current()
     private let persistenceService = PersistenceService()
 
     static let reminderCategoryIdentifier = "WATER_REMINDER"
+
+    override init() {
+        super.init()
+        notificationCenter.delegate = self
+    }
 
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         notificationCenter.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
@@ -105,5 +110,34 @@ class NotificationManager {
 
     func cancelAllNotifications() {
         notificationCenter.removeAllPendingNotificationRequests()
+    }
+
+    // MARK: - UNUserNotificationCenterDelegate
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let identifier = response.actionIdentifier
+        let requestIdentifier = response.notification.request.identifier
+
+        if identifier == "I_DRANK_ACTION" {
+            handleDrinkAction(for: requestIdentifier)
+        }
+
+        completionHandler()
+    }
+    
+    private func handleDrinkAction(for notificationIdentifier: String) {
+        print("'I Drank' action handled for notification: \(notificationIdentifier)")
+        persistenceService.incrementCompletionCount()
+        
+        // Cancel the follow-up reminder
+        let followUpIdentifier: String
+        if notificationIdentifier.hasSuffix("_followup") {
+            followUpIdentifier = notificationIdentifier
+        } else {
+            followUpIdentifier = "\(notificationIdentifier)_followup"
+        }
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [followUpIdentifier])
     }
 } 
