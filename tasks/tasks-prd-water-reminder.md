@@ -36,11 +36,11 @@
   - [x] 3.5 Implement logic to schedule a follow-up reminder if the primary one is missed.
   - [x] 3.6 Create a `cancelAllNotifications()` function to be called when the user updates their schedule in `SettingsView`.
 
-- [ ] 4.0 Develop Main Screen for Progress Tracking
-  - [ ] 4.1 Design the UI in `ContentView.swift` to show progress (e.g., "3/8 reminders completed").
-  - [ ] 4.2 In `PersistenceService.swift`, add functions to save, load, and reset the daily completion count.
-  - [ ] 4.3 Implement logic to calculate the total number of reminders based on the user's schedule.
-  - [ ] 4.4 Ensure the `ContentView` fetches and displays the latest progress from `PersistenceService` when it appears.
+- [x] 4.0 Develop Main Screen for Progress Tracking
+  - [x] 4.1 Design the UI in `ContentView.swift` to show progress (e.g., "3/8 reminders completed").
+  - [x] 4.2 In `PersistenceService.swift`, add functions to save, load, and reset the daily completion count.
+  - [x] 4.3 Implement logic to calculate the total number of reminders based on the user's schedule.
+  - [x] 4.4 Ensure the `ContentView` fetches and displays the latest progress from `PersistenceService` when it appears.
 
 - [ ] 5.0 Implement Reminder Confirmation Logic
   - [ ] 5.1 In `NotificationManager.swift`, implement the handler for the "I Drank" notification action.
