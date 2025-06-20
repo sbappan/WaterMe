@@ -28,13 +28,13 @@
   - [x] 2.4 Create `SettingsView.swift` by reusing the UI from `OnboardingView` to allow users to modify their schedule.
   - [x] 2.5 Ensure that any changes in `SettingsView` are saved using `PersistenceService`.
 
-- [ ] 3.0 Implement Notification System
-  - [ ] 3.1 In `NotificationManager.swift`, add a function to request user permission for notifications. Call this after onboarding.
-  - [ ] 3.2 Implement a `scheduleReminders()` function that reads the schedule from `PersistenceService`.
-  - [ ] 3.3 Calculate and schedule the primary local notifications for the day, ensuring they don't fire outside the start/end times.
-  - [ ] 3.4 Add a notification action button "I Drank" to the primary reminder.
-  - [ ] 3.5 Implement logic to schedule a follow-up reminder if the primary one is missed.
-  - [ ] 3.6 Create a `cancelAllNotifications()` function to be called when the user updates their schedule in `SettingsView`.
+- [x] 3.0 Implement Notification System
+  - [x] 3.1 In `NotificationManager.swift`, add a function to request user permission for notifications. Call this after onboarding.
+  - [x] 3.2 Implement a `scheduleReminders()` function that reads the schedule from `PersistenceService`.
+  - [x] 3.3 Calculate and schedule the primary local notifications for the day, ensuring they don't fire outside the start/end times.
+  - [x] 3.4 Add a notification action button "I Drank" to the primary reminder.
+  - [x] 3.5 Implement logic to schedule a follow-up reminder if the primary one is missed.
+  - [x] 3.6 Create a `cancelAllNotifications()` function to be called when the user updates their schedule in `SettingsView`.
 
 - [ ] 4.0 Develop Main Screen for Progress Tracking
   - [ ] 4.1 Design the UI in `ContentView.swift` to show progress (e.g., "3/8 reminders completed").

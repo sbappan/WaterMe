@@ -8,6 +8,7 @@ struct SettingsView: View {
     @State private var reminderInterval = 1.0 // in hours
 
     private let persistenceService = PersistenceService()
+    private let notificationManager = NotificationManager()
 
     var body: some View {
         VStack {
@@ -25,6 +26,7 @@ struct SettingsView: View {
                     followUpInterval: 15 * 60 // 15 minutes in seconds
                 )
                 persistenceService.saveSchedule(schedule)
+                notificationManager.scheduleReminders()
                 presentationMode.wrappedValue.dismiss()
             }) {
                 Text("Save Changes")
