@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var isShowingOnboarding = false
     @State private var isShowingSettings = false
     @State private var completedReminders = 0
-    @State private var totalReminders = 0
+    private let totalReminders = 8 // Let's set a goal of 8 glasses a day
     
     private let persistenceService = PersistenceService()
 
@@ -32,13 +32,14 @@ struct ContentView: View {
                     .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                     .scaleEffect(x: 1, y: 4, anchor: .center)
                     .padding(.horizontal)
-                
-                Spacer()
-                
+
                 Button(action: {
-                    isShowingSettings = true
+                    if completedReminders < totalReminders {
+                        completedReminders += 1
+                        persistenceService.saveProgress(count: completedReminders)
+                    }
                 }) {
-                    Text("Edit Schedule")
+                    Text("I drank a glass!")
                        .frame(maxWidth: .infinity)
                        .padding()
                        .background(Color.blue)
@@ -46,13 +47,21 @@ struct ContentView: View {
                        .cornerRadius(10)
                 }
                 .padding(.horizontal)
+                
+                Spacer()
             }
             .padding()
             .navigationTitle("Water Me")
-            .navigationBarHidden(true)
+            .toolbar {
+                Button(action: {
+                    isShowingSettings = true
+                }) {
+                    Image(systemName: "gear")
+                }
+            }
         }
         .onAppear(perform: {
-            if persistenceService.loadSchedule() == nil {
+            if persistenceService.loadProgress() == nil {
                 isShowingOnboarding = true
             } else {
                 setupView()
@@ -66,6 +75,7 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $isShowingOnboarding, onDismiss: {
+            persistenceService.saveProgress(count: 0)
             setupView()
         }) {
             OnboardingView(isPresented: $isShowingOnboarding)
@@ -78,10 +88,6 @@ struct ContentView: View {
         
         if let progress = persistenceService.loadProgress() {
             completedReminders = progress.count
-        }
-        
-        if let schedule = persistenceService.loadSchedule() {
-            totalReminders = schedule.totalReminders
         }
     }
 }

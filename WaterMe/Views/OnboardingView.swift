@@ -3,35 +3,28 @@ import SwiftUI
 struct OnboardingView: View {
     @Binding var isPresented: Bool
     
-    @State private var startTime = Date()
-    @State private var endTime = Date()
-    @State private var reminderInterval = 60 // in minutes
-    
-    private let persistenceService = PersistenceService()
-
     var body: some View {
         NavigationView {
             VStack {
-                ScheduleFormView(
-                    startTime: $startTime,
-                    endTime: $endTime,
-                    reminderInterval: $reminderInterval
-                )
+                Text("Welcome to WaterMe!")
+                    .font(.largeTitle)
+                    .padding()
+                
+                Text("This app will help you track your daily water intake.")
+                    .font(.title2)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
+                Spacer()
                 
                 Button(action: {
-                    let schedule = Schedule(
-                        startTime: startTime,
-                        endTime: endTime,
-                        reminderInterval: TimeInterval(reminderInterval * 60) // convert minutes to seconds
-                    )
-                    persistenceService.saveSchedule(schedule)
                     isPresented = false
                 }) {
-                    Text("Save and Continue")
+                    Text("Get Started")
                 }
                 .padding()
             }
-            .navigationTitle("Setup Schedule")
+            .navigationTitle("Welcome")
         }
     }
 }
