@@ -57,11 +57,15 @@ struct ContentView: View {
             .navigationBarHidden(true)
         }
         .onAppear(perform: {
-            if persistenceService.loadSchedule() == nil {
-                isShowingOnboarding = true
-            } else {
-                setupView()
-                setupAndStartTimer()
+            notificationManager.requestAuthorization { granted in
+                if granted {
+                    if persistenceService.loadSchedule() == nil {
+                        isShowingOnboarding = true
+                    } else {
+                        setupView()
+                        setupAndStartTimer()
+                    }
+                }
             }
         })
         .onDisappear {
@@ -69,6 +73,7 @@ struct ContentView: View {
         }
         .sheet(isPresented: $isShowingOnboarding, onDismiss: {
             setupView()
+            notificationManager.scheduleReminders()
             setupAndStartTimer()
         }) {
             OnboardingView(isPresented: $isShowingOnboarding)
