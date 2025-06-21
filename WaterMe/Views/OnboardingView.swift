@@ -5,7 +5,7 @@ struct OnboardingView: View {
     
     @State private var startTime = Date()
     @State private var endTime = Date()
-    @State private var reminderInterval = 1.0 // in hours
+    @State private var reminderInterval = 60 // in minutes
     
     private let persistenceService = PersistenceService()
     private let notificationManager = NotificationManager()
@@ -23,8 +23,8 @@ struct OnboardingView: View {
                     let schedule = Schedule(
                         startTime: startTime,
                         endTime: endTime,
-                        reminderInterval: reminderInterval * 3600, // convert hours to seconds
-                        followUpInterval: 15 * 60 // 15 minutes in seconds
+                        reminderInterval: TimeInterval(reminderInterval * 60), // convert minutes to seconds
+                        followUpInterval: 5 * 60 // 5 minutes in seconds
                     )
                     persistenceService.saveSchedule(schedule)
                     

@@ -3,7 +3,9 @@ import SwiftUI
 struct ScheduleFormView: View {
     @Binding var startTime: Date
     @Binding var endTime: Date
-    @Binding var reminderInterval: Double
+    @Binding var reminderInterval: Int
+
+    private let reminderIntervals = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120]
 
     var body: some View {
         Form {
@@ -13,8 +15,10 @@ struct ScheduleFormView: View {
             }
 
             Section(header: Text("How often?")) {
-                Stepper(value: $reminderInterval, in: 0.5...4, step: 0.5) {
-                    Text("\(reminderInterval, specifier: "%.1f") hours")
+                Picker("Remind me every", selection: $reminderInterval) {
+                    ForEach(reminderIntervals, id: \.self) { interval in
+                        Text("\(interval) minutes").tag(interval)
+                    }
                 }
             }
         }
