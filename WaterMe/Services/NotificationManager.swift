@@ -140,4 +140,22 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         }
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [followUpIdentifier])
     }
+    
+    func getNextNotificationDate(completion: @escaping (Date?) -> Void) {
+        notificationCenter.getPendingNotificationRequests { requests in
+            let nextRequest = requests
+                .compactMap { request -> Date? in
+                    guard let trigger = request.trigger as? UNCalendarNotificationTrigger,
+                          let nextTriggerDate = trigger.nextTriggerDate() else {
+                        return nil
+                    }
+                    return nextTriggerDate
+                }
+                .min()
+            
+            DispatchQueue.main.async {
+                completion(nextRequest)
+            }
+        }
+    }
 } 
