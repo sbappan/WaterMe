@@ -41,18 +41,21 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         notificationCenter.setNotificationCategories([reminderCategory])
     }
 
-    func scheduleReminders() {
+    func scheduleReminders(completion: (() -> Void)? = nil) {
         guard let schedule = persistenceService.loadSchedule() else {
             print("No schedule found. Cannot schedule reminders.")
+            completion?()
             return
         }
         
         print("Scheduling reminders with schedule: \(schedule)")
-        cancelAllNotifications()
+        notificationCenter.removeAllPendingNotificationRequests()
 
         let calendar = Calendar.current
         var currentTime = schedule.startTime
         let endTime = schedule.endTime
+        
+        let dispatchGroup = DispatchGroup()
 
         while currentTime <= endTime {
             let primaryIdentifier = UUID().uuidString
@@ -72,11 +75,13 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
                 content: content,
                 trigger: trigger
             )
-
+            
+            dispatchGroup.enter()
             notificationCenter.add(request) { error in
                 if let error = error {
                     print("Error scheduling primary notification: \(error)")
                 }
+                dispatchGroup.leave()
             }
 
             // Schedule Follow-up Reminder
@@ -96,15 +101,22 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
                     content: followUpContent,
                     trigger: followUpTrigger
                 )
-
+                
+                dispatchGroup.enter()
                 notificationCenter.add(followUpRequest) { error in
                     if let error = error {
                         print("Error scheduling follow-up notification: \(error)")
                     }
+                    dispatchGroup.leave()
                 }
             }
 
             currentTime = calendar.date(byAdding: .second, value: Int(schedule.reminderInterval), to: currentTime)!
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            print("All reminders have been scheduled successfully.")
+            completion?()
         }
     }
 

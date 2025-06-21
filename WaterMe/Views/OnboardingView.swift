@@ -30,10 +30,13 @@ struct OnboardingView: View {
                     
                     notificationManager.requestAuthorization { granted in
                         if granted {
-                            self.notificationManager.scheduleReminders()
+                            self.notificationManager.scheduleReminders {
+                                self.isPresented = false
+                            }
+                        } else {
+                            isPresented = false
                         }
                         print("Notification permission granted: \(granted)")
-                        isPresented = false
                     }
                 }) {
                     Text("Save and Continue")

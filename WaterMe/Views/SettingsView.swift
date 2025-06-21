@@ -26,8 +26,9 @@ struct SettingsView: View {
                     followUpInterval: 5 * 60 // 5 minutes in seconds
                 )
                 persistenceService.saveSchedule(schedule)
-                notificationManager.scheduleReminders()
-                presentationMode.wrappedValue.dismiss()
+                notificationManager.scheduleReminders {
+                    presentationMode.wrappedValue.dismiss()
+                }
             }) {
                 Text("Save Changes")
             }

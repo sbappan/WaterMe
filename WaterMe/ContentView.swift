@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var isShowingOnboarding = false
+    @State private var isShowingSettings = false
     @State private var completedReminders = 0
     @State private var totalReminders = 0
     @State private var timeRemaining: String?
@@ -42,13 +43,15 @@ struct ContentView: View {
 
                 Spacer()
                 
-                NavigationLink(destination: SettingsView()) {
-                     Text("Edit Schedule")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                Button(action: {
+                    isShowingSettings = true
+                }) {
+                    Text("Edit Schedule")
+                       .frame(maxWidth: .infinity)
+                       .padding()
+                       .background(Color.blue)
+                       .foregroundColor(.white)
+                       .cornerRadius(10)
                 }
                 .padding(.horizontal)
             }
@@ -71,9 +74,16 @@ struct ContentView: View {
         .onDisappear {
             timer?.invalidate()
         }
+        .sheet(isPresented: $isShowingSettings, onDismiss: {
+            setupView()
+            setupAndStartTimer()
+        }) {
+            NavigationView {
+                SettingsView()
+            }
+        }
         .sheet(isPresented: $isShowingOnboarding, onDismiss: {
             setupView()
-            notificationManager.scheduleReminders()
             setupAndStartTimer()
         }) {
             OnboardingView(isPresented: $isShowingOnboarding)
