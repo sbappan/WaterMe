@@ -4,7 +4,6 @@ struct Schedule: Codable {
     var startTime: Date
     var endTime: Date
     var reminderInterval: TimeInterval // Stored in seconds
-    var followUpInterval: TimeInterval // Stored in seconds
     
     var totalReminders: Int {
         guard reminderInterval > 0 else { return 0 }

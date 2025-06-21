@@ -8,7 +8,6 @@ struct OnboardingView: View {
     @State private var reminderInterval = 60 // in minutes
     
     private let persistenceService = PersistenceService()
-    private let notificationManager = NotificationManager()
 
     var body: some View {
         NavigationView {
@@ -23,27 +22,16 @@ struct OnboardingView: View {
                     let schedule = Schedule(
                         startTime: startTime,
                         endTime: endTime,
-                        reminderInterval: TimeInterval(reminderInterval * 60), // convert minutes to seconds
-                        followUpInterval: 5 * 60 // 5 minutes in seconds
+                        reminderInterval: TimeInterval(reminderInterval * 60) // convert minutes to seconds
                     )
                     persistenceService.saveSchedule(schedule)
-                    
-                    notificationManager.requestAuthorization { granted in
-                        if granted {
-                            self.notificationManager.scheduleReminders {
-                                self.isPresented = false
-                            }
-                        } else {
-                            isPresented = false
-                        }
-                        print("Notification permission granted: \(granted)")
-                    }
+                    isPresented = false
                 }) {
                     Text("Save and Continue")
                 }
                 .padding()
             }
-            .navigationTitle("Setup Reminders")
+            .navigationTitle("Setup Schedule")
         }
     }
 }

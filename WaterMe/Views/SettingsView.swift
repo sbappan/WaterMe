@@ -8,7 +8,6 @@ struct SettingsView: View {
     @State private var reminderInterval = 60 // in minutes
 
     private let persistenceService = PersistenceService()
-    private let notificationManager = NotificationManager()
 
     var body: some View {
         VStack {
@@ -18,21 +17,27 @@ struct SettingsView: View {
                 reminderInterval: $reminderInterval
             )
             
-            Button(action: {
-                let schedule = Schedule(
-                    startTime: startTime,
-                    endTime: endTime,
-                    reminderInterval: TimeInterval(reminderInterval * 60), // convert minutes to seconds
-                    followUpInterval: 5 * 60 // 5 minutes in seconds
-                )
-                persistenceService.saveSchedule(schedule)
-                notificationManager.scheduleReminders {
+            HStack(spacing: 16) {
+                Button(action: {
                     presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Cancel")
                 }
-            }) {
-                Text("Save Changes")
+                .padding()
+                
+                Button(action: {
+                    let schedule = Schedule(
+                        startTime: startTime,
+                        endTime: endTime,
+                        reminderInterval: TimeInterval(reminderInterval * 60) // convert minutes to seconds
+                    )
+                    persistenceService.saveSchedule(schedule)
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Save Changes")
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .padding()
         }
         .navigationTitle("Settings")
         .onAppear(perform: loadSchedule)
